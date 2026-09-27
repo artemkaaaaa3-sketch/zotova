@@ -474,6 +474,11 @@ form .btn:hover{background:#BCC796}
   .why__d summary{padding-block:16px}
   .radios label{padding:15px 18px}
 }
+
+/* цели под палец: в подвале ссылки были высотой 20 px, палец промахивался */
+@media(max-width:760px){
+  footer a, .ftr a, .foot a{display:inline-flex;align-items:center;min-height:44px}
+}
 </style>
 <script>
 (function(){
@@ -1164,6 +1169,9 @@ form .btn:hover{background:#BCC796}
   burger.addEventListener('click',function(){
     var open=document.body.classList.toggle('menu');
     burger.setAttribute('aria-expanded',open?'true':'false');
+    /* с клавиатуры фокус уходил мимо меню на кнопку записи */
+    if(open){var first=links[0];if(first)first.focus({preventScroll:true});}
+    else burger.focus({preventScroll:true});
   });
   links.forEach(function(a){a.addEventListener('click',function(){
     document.body.classList.remove('menu');burger.setAttribute('aria-expanded','false');
