@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
+<!-- образец работы: от поисковиков закрыт, перед запуском строку убрать -->
 <meta name="robots" content="noindex">
 <title>Марина Зотова — психолог в Пскове и онлайн. КПТ и схема-терапия</title>
 <meta name="description" content="Частная практика: тревога, выгорание, панические атаки, повторяющиеся сценарии в отношениях. Встреча 50 минут, 3200 ₽ в кабинете на Октябрьском, 2900 ₽ онлайн. Честно о том, с чем я не работаю.">
@@ -23,8 +24,11 @@
   --olive:#59653F; --olive-deep:#3F492C; --olive-lt:#A8B57E;
   --paper-70:rgba(241,232,225,.76); --paper-55:rgba(241,232,225,.72); --paper-40:rgba(241,232,225,.42); --paper-18:rgba(241,232,225,.2);
 
-  --t-xs:13px; --t-sm:13px; --t-base:17px; --t-md:20px; --t-lg:clamp(21px,2.15vw,28px);
-  --t-xl:clamp(32px,4.3vw,52px); --t-2xl:clamp(38px,5.9vw,86px);
+  /* шесть ступеней: метки, мелкий текст, основной, подзаголовки,
+     числа фактов и цена идут ступенью подзаголовка и заголовка секции */
+  --t-xs:13px; --t-sm:13px; --t-base:17px; --t-md:20px;
+  --t-lg:clamp(24px,2.7vw,34px);
+  --t-xl:clamp(28px,4.3vw,52px); --t-2xl:clamp(38px,5.9vw,86px);
 
   --gut:clamp(20px,5.2vw,88px);
   --rail:190px;
@@ -34,9 +38,17 @@
 }
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-padding-top:74px;-webkit-text-size-adjust:100%}
+/* запасные гарнитуры с подогнанной шириной: пока грузятся веб-шрифты,
+   строки ложатся так же, и первый экран не прыгает на 49 px.
+   Замер 27.09.2026: Arsenal — 90,2 % ширины Arial, Piazzolla — 97,9 % ширины
+   Georgia. У Bona Nova подгонка взята по числу строк заголовка на 320 px:
+   при 96 % он ложился в четыре строки вместо трёх, при 94 % совпадает */
+@font-face{font-family:"Arsenal Fb";src:local("Arial");size-adjust:94%}
+@font-face{font-family:"Bona Fb";src:local("Georgia");size-adjust:94%}
+@font-face{font-family:"Piazzolla Fb";src:local("Georgia");size-adjust:97.9%}
 body{
   margin:0;background:var(--paper);color:var(--ink);
-  font:400 var(--t-base)/1.62 Arsenal,"Segoe UI",system-ui,sans-serif;
+  font:400 var(--t-base)/1.5 Arsenal,"Arsenal Fb","Segoe UI",system-ui,sans-serif;
   -webkit-font-smoothing:antialiased;overflow-x:hidden;
 }
 figure,blockquote,dl,dd,ul,ol,p,h1,h2,h3,h4{margin:0;padding:0}
@@ -47,8 +59,9 @@ img{height:auto}
 a{color:inherit}
 button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
 ::selection{background:var(--olive);color:#fff}
-:focus-visible{outline:2px solid var(--olive);outline-offset:3px;border-radius:2px}
-.dark :focus-visible{outline-color:var(--olive-lt)}
+/* оливковая обводка на бумажном фоне давала 2,68:1 — берём тёмную по норме 3:1 */
+:focus-visible{outline:2px solid var(--olive-deep);outline-offset:3px;border-radius:2px}
+.dark :focus-visible,.hero :focus-visible,#zapis :focus-visible,.foot :focus-visible{outline-color:var(--paper)}
 
 /* ─────────── каркас ─────────── */
 .wrap{max-width:var(--max);margin:0 auto;padding-inline:var(--gut)}
@@ -61,15 +74,17 @@ button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
 /* подпись секции живёт в левом поле — это маргиналия, а не плашка над заголовком */
 .head{display:grid;grid-template-columns:var(--rail) minmax(0,1fr);gap:0 clamp(24px,3vw,48px);align-items:start}
 .head__mark{
-  font:700 var(--t-xs)/1.5 Arsenal,sans-serif;letter-spacing:.2em;text-transform:uppercase;
+  font:700 var(--t-xs)/1.5 Arsenal,"Arsenal Fb",sans-serif;letter-spacing:.2em;text-transform:uppercase;
   color:var(--olive);padding-top:.9em;
 }
 .dark .head__mark{color:var(--olive-lt)}
 .head__mark::after{content:"";display:block;height:1px;background:currentColor;opacity:.42;margin-top:.9em}
-h2{font:400 var(--t-xl)/1.04 Piazzolla,Georgia,serif;letter-spacing:-.022em;max-width:19ch;text-wrap:balance}
+h2{font:400 var(--t-xl)/1.04 Piazzolla,"Piazzolla Fb",Georgia,serif;letter-spacing:-.022em;max-width:19ch;text-wrap:balance}
+
+
 h2 em{font-style:italic;color:var(--olive)}
 .dark h2 em{color:var(--olive-lt)}
-.lead{font-size:var(--t-md);line-height:1.55;color:var(--ink-70);margin-top:1.05em;max-width:46ch}
+.lead{font-size:var(--t-md);line-height:1.5;color:var(--ink-70);margin-top:1.05em;max-width:46ch}
 .dark .lead{color:var(--paper-70)}
 @media (max-width:900px){
   .head{grid-template-columns:1fr;gap:18px}
@@ -81,9 +96,9 @@ h2 em{font-style:italic;color:var(--olive)}
 .hdr{position:fixed;inset:0 0 auto;z-index:60;color:var(--paper);transition:background .35s ease,box-shadow .35s ease,color .35s ease}
 .hdr__in{max-width:var(--max);margin:0 auto;padding:0 var(--gut);height:70px;display:flex;align-items:center;gap:clamp(14px,2.2vw,32px)}
 .hdr.is-stuck{background:rgba(241,232,225,.95);backdrop-filter:blur(9px);color:var(--ink);box-shadow:0 1px 0 var(--ink-18)}
-.brand{font:400 22px/1 Piazzolla,Georgia,serif;letter-spacing:-.015em;text-decoration:none;white-space:nowrap;flex:0 0 auto;
+.brand{font:400 22px/1 Piazzolla,"Piazzolla Fb",Georgia,serif;letter-spacing:-.015em;text-decoration:none;white-space:nowrap;flex:0 0 auto;
   display:flex;flex-direction:column;justify-content:center;min-height:44px}
-.brand small{display:block;font:700 12px/1 Arsenal,sans-serif;letter-spacing:.2em;text-transform:uppercase;opacity:.78;margin-top:5px}
+.brand small{display:block;font:700 12px/1 Arsenal,"Arsenal Fb",sans-serif;letter-spacing:.2em;text-transform:uppercase;opacity:.78;margin-top:5px}
 .nav{display:flex;flex:1 1 auto;justify-content:space-between;align-items:center;
   padding-inline:clamp(20px,3.4vw,64px);min-width:0}
 /* Стеклянная подложка под ссылками: 20 % прозрачности и размытие фона */
@@ -101,7 +116,7 @@ h2 em{font-style:italic;color:var(--olive)}
 .nav a::after{content:"";position:absolute;left:0;right:100%;bottom:0;height:1px;background:currentColor;transition:right .28s ease}
 .nav a:hover::after,.nav a.is-on::after{right:0}
 .nav a.is-on{opacity:1}
-.hdr__cta{flex:0 0 auto;font:700 17px/1 Arsenal,sans-serif;text-decoration:none;padding:12px 20px;border-radius:999px;background:var(--olive);color:#fff;transition:background .22s ease;white-space:nowrap}
+.hdr__cta{flex:0 0 auto;font:700 17px/1 Arsenal,"Arsenal Fb",sans-serif;text-decoration:none;padding:12px 20px;border-radius:999px;background:var(--olive);color:#fff;transition:background .22s ease;white-space:nowrap}
 .hdr__cta:hover{background:var(--olive-deep)}
 .prog{position:absolute;left:0;bottom:0;height:2px;background:var(--olive);width:0;opacity:0;transition:opacity .3s}
 .hdr.is-stuck .prog{opacity:1}
@@ -152,15 +167,15 @@ body.menu .burger span::after{top:0;opacity:0}
     linear-gradient(to top,rgba(36,28,23,.84) 0%,rgba(36,28,23,0) 47%);
 }
 .hero__in{width:100%;max-width:var(--max);margin:0 auto;padding:148px var(--gut) clamp(34px,4.4vw,60px)}
-.hero__mark{font:700 var(--t-xs)/1 Arsenal,sans-serif;letter-spacing:.22em;text-transform:uppercase;color:var(--olive-lt);margin-bottom:clamp(20px,2.6vw,34px)}
+.hero__mark{font:700 var(--t-xs)/1 Arsenal,"Arsenal Fb",sans-serif;letter-spacing:.22em;text-transform:uppercase;color:var(--olive-lt);margin-bottom:clamp(20px,2.6vw,34px)}
 /* Герой набран отдельной гарнитурой: первый экран должен звучать иначе,
    чем разделы, и Bona Nova даёт тепла там, где Piazzolla держит строй */
-h1{font:400 var(--t-2xl)/1.07 "Bona Nova",Georgia,serif;letter-spacing:-.022em;max-width:24ch;text-wrap:balance}
+h1{font:400 var(--t-2xl)/1.07 "Bona Nova","Bona Fb",Georgia,serif;letter-spacing:-.022em;max-width:24ch;text-wrap:balance}
 h1 em{font-style:italic;color:var(--olive-lt)}
-.hero__sub{font-size:var(--t-md);line-height:1.52;color:var(--paper-70);max-width:47ch;margin-top:clamp(18px,2.2vw,30px)}
+.hero__sub{font-size:var(--t-md);line-height:1.5;color:var(--paper-70);max-width:47ch;margin-top:clamp(18px,2.2vw,30px)}
 .hero__act{display:flex;flex-wrap:wrap;gap:12px;margin-top:clamp(26px,3vw,40px)}
 .btn{
-  display:inline-flex;align-items:center;gap:11px;font:700 var(--t-base)/1 Arsenal,sans-serif;
+  display:inline-flex;align-items:center;gap:11px;font:700 var(--t-base)/1 Arsenal,"Arsenal Fb",sans-serif;
   padding:18px 28px;border-radius:999px;text-decoration:none;
   background:var(--olive);color:#fff;transition:background .22s ease,transform .22s ease;
 }
@@ -173,8 +188,11 @@ h1 em{font-style:italic;color:var(--olive-lt)}
 .btn--ink{background:var(--ink);color:var(--paper-hi)}
 .btn--ink:hover{background:var(--soil)}
 .facts{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0 clamp(16px,2vw,30px);margin-top:clamp(40px,5vw,74px);border-top:1px solid var(--paper-18);padding-top:22px}
-.facts dt{font:400 clamp(26px,2.9vw,40px)/1 "Bona Nova",Georgia,serif;letter-spacing:-.015em}
-.facts dd{font-size:var(--t-sm);line-height:1.45;color:var(--paper-70);margin-top:9px;max-width:21ch}
+.facts dt{font:400 var(--t-lg)/1 "Bona Nova","Bona Fb",Georgia,serif;letter-spacing:-.015em}
+/* мера в ch считается по ширине нуля в гарнитуре: у запасного шрифта она другая,
+   подпись переносилась на строку больше и первый экран прыгал на 19 px.
+   Те же 153 px в em не зависят от гарнитуры */
+.facts dd{font-size:var(--t-sm);line-height:1.45;color:var(--paper-70);margin-top:9px;max-width:11.8em}
 @media (max-width:860px){
   .facts{grid-template-columns:repeat(2,1fr);gap:26px clamp(16px,3vw,30px)}
   .hero__in{padding-top:116px}
@@ -184,15 +202,15 @@ h1 em{font-style:italic;color:var(--olive-lt)}
 
 /* ─────────── запросы: беру / не беру ─────────── */
 .q{margin-top:clamp(44px,5vw,72px);display:grid;grid-template-columns:var(--rail) minmax(0,1fr);gap:0 clamp(24px,3vw,48px)}
-.q__side{font-size:var(--t-sm);color:var(--ink-70);line-height:1.55;display:flex;flex-direction:column;min-height:0}
+.q__side{font-size:var(--t-sm);color:var(--ink-70);line-height:1.5;display:flex;flex-direction:column;min-height:0}
 @media (min-width:901px) and (min-height:700px){
   .q__side{position:sticky;top:96px;align-self:start}
 }
-.q__side b{display:block;font:700 var(--t-xs)/1.5 Arsenal,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--olive);margin-bottom:10px}
+.q__side b{display:block;font:700 var(--t-xs)/1.5 Arsenal,"Arsenal Fb",sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--olive);margin-bottom:10px}
 .q__hero{margin-top:clamp(40px,4.4vw,64px)}
 .q__hero img{width:100%;aspect-ratio:32/11;object-fit:cover;object-position:center 36%;
   border-radius:var(--r-lg);filter:saturate(.7) contrast(1.04) brightness(.95)}
-.q__hero figcaption{font-size:var(--t-sm);line-height:1.55;color:var(--ink-45);margin-top:14px;max-width:64ch}
+.q__hero figcaption{font-size:var(--t-sm);line-height:1.5;color:var(--ink-45);margin-top:14px;max-width:64ch}
 @media (max-width:700px){.q__hero img{aspect-ratio:4/3}}
 .q__fig{margin-top:30px;margin-left:calc(var(--gut) * -1);width:calc(100% + var(--gut));flex:0 0 auto}
 /* Второй кадр тянется на весь остаток колонки: список длинный, и без этого
@@ -202,10 +220,10 @@ h1 em{font-style:italic;color:var(--olive-lt)}
   padding:clamp(24px,2.6vw,34px) clamp(22px,2.6vw,34px);margin-top:clamp(26px,2.8vw,38px);
   text-decoration:none;color:var(--ink);transition:background .22s ease}
 .q__ask:hover{background:#FDF8F3;box-shadow:inset 0 0 0 1px rgba(89,101,63,.4)}
-.q__ask-h{font:400 clamp(21px,2.15vw,28px)/1.18 Piazzolla,Georgia,serif;letter-spacing:-.02em;grid-column:1}
-.q__ask-p{font-size:var(--t-sm);line-height:1.55;color:var(--ink-70);max-width:62ch;grid-column:1}
+.q__ask-h{font:700 var(--t-lg)/1.18 Arsenal,"Arsenal Fb","Segoe UI",system-ui,sans-serif;letter-spacing:-.02em;grid-column:1}
+.q__ask-p{font-size:var(--t-sm);line-height:1.5;color:var(--ink-70);max-width:62ch;grid-column:1}
 .q__ask-go{grid-column:2;grid-row:1/3;display:inline-flex;align-items:center;gap:9px;white-space:nowrap;
-  font:700 var(--t-base)/1 Arsenal,sans-serif;color:var(--olive)}
+  font:700 var(--t-base)/1 Arsenal,"Arsenal Fb",sans-serif;color:var(--olive)}
 .q__ask-go span{border-bottom:1px solid currentColor;padding-bottom:3px}
 .q__ask-go svg{width:15px;height:15px;transition:transform .25s ease}
 .q__ask:hover .q__ask-go svg{transform:translateX(4px)}
@@ -216,7 +234,7 @@ h1 em{font-style:italic;color:var(--olive-lt)}
 .qi{border-bottom:1px solid var(--ink-18)}
 .qi__btn{display:flex;align-items:baseline;gap:clamp(12px,1.8vw,26px);width:100%;text-align:left;padding:clamp(18px,2vw,26px) 0;transition:color .2s ease}
 .qi__btn:hover{color:var(--olive)}
-.qi__t{font:400 var(--t-lg)/1.2 Piazzolla,Georgia,serif;letter-spacing:-.018em;flex:1}
+.qi__t{font:400 var(--t-lg)/1.2 Piazzolla,"Piazzolla Fb",Georgia,serif;letter-spacing:-.018em;flex:1}
 .qi__hint{font-size:var(--t-sm);color:var(--ink-45);flex:0 0 auto;text-align:right;min-width:9ch}
 .qi__sign{flex:0 0 auto;width:15px;height:15px;position:relative;align-self:center;opacity:.5;transition:opacity .2s}
 .qi__btn:hover .qi__sign{opacity:1}
@@ -227,17 +245,17 @@ h1 em{font-style:italic;color:var(--olive-lt)}
 .qi__panel{overflow:hidden;height:0}
 .qi__inner{padding:0 0 clamp(22px,2.4vw,32px);display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);gap:clamp(20px,3vw,46px);max-width:72ch}
 .qi__inner p{color:var(--ink-70);max-width:48ch}
-.qi__meta{font-size:var(--t-sm);line-height:1.6}
-.qi__meta dt{font:700 var(--t-xs)/1.5 Arsenal,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--olive)}
+.qi__meta{font-size:var(--t-sm);line-height:1.5}
+.qi__meta dt{font:700 var(--t-xs)/1.5 Arsenal,"Arsenal Fb",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--olive)}
 .qi__meta dd{margin-bottom:14px;color:var(--ink-70)}
 .qi__meta dd:last-child{margin-bottom:0}
 .qi--no .qi__t{color:var(--ink-45)}
 .nope{margin-top:clamp(30px,3.4vw,46px);background:var(--clay);border-radius:var(--r-lg);overflow:hidden}
-.nope__head{display:flex;align-items:center;gap:clamp(16px,2vw,28px);width:100%;text-align:left;
+.nope__head{display:flex;align-items:center;gap:clamp(12px,2vw,28px);width:100%;text-align:left;line-height:1.25;flex-wrap:wrap;
   padding:clamp(22px,2.4vw,30px) clamp(22px,2.6vw,34px);transition:background .22s ease}
 .nope__head:hover{background:#E3D3C7}
 .nope__txt{display:flex;flex-direction:column;gap:6px;min-width:0}
-.nope__t{font:400 clamp(21px,2.15vw,28px)/1.18 Piazzolla,Georgia,serif;letter-spacing:-.02em}
+.nope__t{font:400 var(--t-lg)/1.18 Piazzolla,"Piazzolla Fb",Georgia,serif;letter-spacing:-.02em}
 .nope__s{font-size:var(--t-sm);line-height:1.5;color:var(--ink-70)}
 .nope__i{margin-left:auto;width:16px;height:16px;position:relative;flex:0 0 auto;color:var(--olive)}
 .nope__i::before,.nope__i::after{content:"";position:absolute;background:currentColor;left:50%;top:50%;translate:-50% -50%}
@@ -246,7 +264,7 @@ h1 em{font-style:italic;color:var(--olive-lt)}
 .nope.on .nope__i::after{transform:scaleY(0)}
 .nope__body{padding:0 clamp(22px,2.6vw,34px) clamp(20px,2.4vw,30px)}
 .nope__item{padding:clamp(20px,2.2vw,28px) 0;border-top:1px solid var(--ink-18)}
-.nope__name{font:400 clamp(19px,1.9vw,24px)/1.2 Piazzolla,Georgia,serif;letter-spacing:-.018em;margin-bottom:12px}
+.nope__name{font:400 clamp(19px,1.9vw,24px)/1.2 Piazzolla,"Piazzolla Fb",Georgia,serif;letter-spacing:-.018em;margin-bottom:12px}
 .nope__in{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:clamp(18px,2.6vw,40px)}
 .nope__in p{color:var(--ink-70);max-width:52ch}
 @media (max-width:820px){.nope__in{grid-template-columns:1fr;gap:16px}}
@@ -255,7 +273,7 @@ h1 em{font-style:italic;color:var(--olive-lt)}
   transition:color .2s ease}
 .q__more:hover{color:var(--olive-deep)}
 .q--open .q__more{display:none}
-.q__more-t{font:700 var(--t-base)/1 Arsenal,sans-serif}
+.q__more-t{font:700 var(--t-base)/1 Arsenal,"Arsenal Fb",sans-serif}
 .q__more-s{font-size:var(--t-sm);color:var(--ink-45)}
 .q__more-i{margin-left:auto;width:15px;height:15px;position:relative;flex:0 0 auto}
 .q__more-i::before,.q__more-i::after{content:"";position:absolute;background:currentColor;left:50%;top:50%;translate:-50% -50%}
@@ -280,7 +298,7 @@ h1 em{font-style:italic;color:var(--olive-lt)}
 /* Точка вместо минут: важна последовательность шагов, а не расписание */
 .tl__row::before{content:"";position:absolute;left:8px;top:calc(clamp(22px,2.4vw,32px) + .5em);
   width:9px;height:9px;border-radius:50%;background:var(--olive-lt)}
-.tl__name{font:400 var(--t-lg)/1.18 Piazzolla,Georgia,serif;letter-spacing:-.018em}
+.tl__name{font:400 var(--t-lg)/1.18 Piazzolla,"Piazzolla Fb",Georgia,serif;letter-spacing:-.018em}
 .tl__txt{color:var(--paper-70);max-width:52ch}
 .nb{white-space:nowrap}
 @media (max-width:900px){
@@ -289,7 +307,7 @@ h1 em{font-style:italic;color:var(--olive-lt)}
 }
 .two{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(26px,4vw,70px);margin-top:clamp(44px,5vw,68px)}
 @media (max-width:820px){.two{grid-template-columns:1fr;gap:36px}}
-.two h3{font:400 var(--t-lg)/1.18 Piazzolla,Georgia,serif;letter-spacing:-.02em;margin-bottom:18px}
+.two h3{font:400 var(--t-lg)/1.18 Piazzolla,"Piazzolla Fb",Georgia,serif;letter-spacing:-.02em;margin-bottom:18px}
 .mark{padding-left:26px;position:relative;margin-bottom:15px;color:var(--paper-70)}
 .mark:last-child{margin-bottom:0}
 .mark::before{content:"";position:absolute;left:0;top:.52em;width:8px;height:8px;border-radius:50%;background:var(--olive-lt)}
@@ -299,13 +317,13 @@ h1 em{font-style:italic;color:var(--olive-lt)}
 /* ─────────── почему я ─────────── */
 .why{margin-top:clamp(44px,5vw,72px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(14px,1.6vw,20px)}
 .why__i{background:var(--paper-hi);border-radius:var(--r-lg);box-shadow:inset 0 0 0 1px rgba(42,33,28,.07);padding:clamp(26px,3vw,42px) clamp(22px,2.6vw,38px) clamp(30px,3.4vw,46px)}
-.why__n{font:700 var(--t-xs)/1 Arsenal,sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--olive);margin-bottom:18px}
-.why__i h3{font:400 var(--t-lg)/1.15 Piazzolla,Georgia,serif;letter-spacing:-.02em;margin-bottom:14px;max-width:20ch;text-wrap:balance}
+.why__n{font:700 var(--t-xs)/1 Arsenal,"Arsenal Fb",sans-serif;letter-spacing:.2em;text-transform:uppercase;color:var(--olive);margin-bottom:18px}
+.why__i h3{font:400 var(--t-lg)/1.15 Piazzolla,"Piazzolla Fb",Georgia,serif;letter-spacing:-.02em;margin-bottom:14px;max-width:20ch;text-wrap:balance}
 .why__i p{color:var(--ink-70);max-width:44ch}
 .why__i p+p{margin-top:12px}
 .why__d{margin-top:14px}
 .why__d summary{list-style:none;cursor:pointer;display:inline-flex;align-items:center;gap:9px;
-  font:700 var(--t-sm)/1 Arsenal,sans-serif;color:var(--olive);padding:4px 0;transition:color .2s}
+  font:700 var(--t-sm)/1 Arsenal,"Arsenal Fb",sans-serif;color:var(--olive);padding:4px 0;transition:color .2s}
 .why__d summary::-webkit-details-marker{display:none}
 .why__d summary::after{content:"";width:11px;height:11px;position:relative;flex:0 0 auto;
   background:linear-gradient(currentColor,currentColor) center/11px 1.5px no-repeat,
@@ -323,10 +341,10 @@ h1 em{font-style:italic;color:var(--olive-lt)}
   background:linear-gradient(168deg,rgba(36,28,23,.62) 0%,rgba(36,28,23,.86) 55%,rgba(36,28,23,.93) 100%)}
 .why__cta:hover::before{transform:scale(1.05)}
 .why__cta .why__n{color:var(--olive-lt)}
-.why__cta h3{font:400 var(--t-lg)/1.15 Piazzolla,Georgia,serif;letter-spacing:-.02em;max-width:16ch;text-wrap:balance}
+.why__cta h3{font:400 var(--t-lg)/1.15 Piazzolla,"Piazzolla Fb",Georgia,serif;letter-spacing:-.02em;max-width:16ch;text-wrap:balance}
 .why__cta p{color:var(--paper-70);max-width:40ch}
 .why__go{display:inline-flex;align-items:center;gap:11px;margin-top:auto;padding-top:18px;
-  font:700 var(--t-base)/1 Arsenal,sans-serif;color:var(--olive-lt)}
+  font:700 var(--t-base)/1 Arsenal,"Arsenal Fb",sans-serif;color:var(--olive-lt)}
 .why__go span{border-bottom:1px solid currentColor;padding-bottom:3px}
 .why__go svg{width:16px;height:16px;transition:transform .25s ease}
 .why__cta:hover .why__go svg{transform:translateX(5px)}
@@ -351,7 +369,9 @@ h1 em{font-style:italic;color:var(--olive-lt)}
 .me__cap{font-size:var(--t-sm);line-height:1.5;color:var(--ink-45);flex:0 0 auto;
   padding-inline:clamp(4px,0.6vw,10px)}
 .creds{margin-top:clamp(40px,4.4vw,64px);border-top:1px solid var(--ink-18)}
-.creds div{display:grid;grid-template-columns:var(--rail) minmax(0,1fr);gap:clamp(14px,2vw,32px);padding:16px 0;border-bottom:1px solid var(--ink-18);font-size:var(--t-sm);line-height:1.55}
+.creds div{display:grid;grid-template-columns:var(--rail) minmax(0,1fr);gap:clamp(14px,2vw,32px);padding:16px 0;border-bottom:1px solid var(--ink-18);font-size:var(--t-sm);line-height:1.5}
+/* колонка года 190 px оставляла описанию 160 px и строку в 18 знаков */
+@media (max-width:700px){.creds div{grid-template-columns:1fr;gap:4px}}
 .creds dt{color:var(--olive);font-weight:700;letter-spacing:.06em;font-variant-numeric:tabular-nums}
 .creds dd{color:var(--ink-70);max-width:64ch}
 @media (max-width:860px){.me{grid-template-columns:1fr;gap:32px}.me__fig{max-width:420px}}
@@ -359,29 +379,31 @@ h1 em{font-style:italic;color:var(--olive-lt)}
 /* ─────────── истории ─────────── */
 .cases{margin-top:clamp(44px,5vw,72px);display:grid;gap:clamp(14px,1.6vw,20px);grid-template-columns:repeat(3,minmax(0,1fr))}
 .case{background:var(--clay);border-radius:var(--r-lg);padding:clamp(26px,2.8vw,40px) clamp(22px,2.4vw,34px) clamp(30px,3.2vw,44px);display:flex;flex-direction:column}
-.case__who{font:700 var(--t-xs)/1.5 Arsenal,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--olive);margin-bottom:16px}
-.case h3{font:400 var(--t-lg)/1.16 Piazzolla,Georgia,serif;letter-spacing:-.02em;margin-bottom:20px;text-wrap:balance}
-.case dl{font-size:var(--t-sm);line-height:1.58;margin-top:auto}
+.case__who{font:700 var(--t-xs)/1.5 Arsenal,"Arsenal Fb",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--olive);margin-bottom:16px}
+.case h3{font:400 var(--t-lg)/1.16 Piazzolla,"Piazzolla Fb",Georgia,serif;letter-spacing:-.02em;margin-bottom:20px;text-wrap:balance}
+/* у одной карточки подвал переносился на вторую строку, и в ряду он стоял
+   на 20 px ниже соседей: держим две строки у всех */
+.case dl{font-size:var(--t-sm);line-height:1.5;margin-top:auto;min-height:3em}
 .case dt{font-weight:700;color:var(--ink);margin-bottom:3px}
 .case dd{color:var(--ink-70);margin-bottom:14px}
 .case dd:last-child{margin-bottom:0}
-.case__n{font:400 var(--t-md)/1 Piazzolla,Georgia,serif;color:var(--olive);display:block;margin-bottom:3px}
+.case__n{font:400 var(--t-md)/1 Piazzolla,"Piazzolla Fb",Georgia,serif;color:var(--olive);display:block;margin-bottom:3px}
 @media (max-width:1000px){.cases{grid-template-columns:1fr}}
 .note{font-size:var(--t-sm);color:var(--ink-45);margin-top:24px;max-width:62ch}
 
 /* ─────────── цены ─────────── */
 .price{margin-top:clamp(44px,5vw,72px);display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:clamp(24px,3vw,48px)}
 .price__card{background:var(--paper-hi);border-radius:var(--r-lg);padding:clamp(26px,3vw,42px);display:flex;flex-direction:column;gap:14px}
-.price__card h3{font:400 var(--t-lg)/1.1 Piazzolla,Georgia,serif;letter-spacing:-.02em}
-.price__card .price__v{font:400 clamp(38px,4.6vw,62px)/1 Piazzolla,Georgia,serif;letter-spacing:-.03em;color:var(--olive);margin-top:4px}
-.price__card .price__v small{font:400 var(--t-base)/1.4 Arsenal,sans-serif;letter-spacing:0;color:var(--ink-45);display:block;margin-top:12px}
-.price__card p{color:var(--ink-70);font-size:var(--t-sm);line-height:1.6}
+.price__card h3{font:400 var(--t-lg)/1.1 Piazzolla,"Piazzolla Fb",Georgia,serif;letter-spacing:-.02em}
+.price__card .price__v{font:400 var(--t-xl)/1 Piazzolla,"Piazzolla Fb",Georgia,serif;letter-spacing:-.03em;color:var(--olive);margin-top:4px}
+.price__card .price__v small{font:400 var(--t-base)/1.4 Arsenal,"Arsenal Fb",sans-serif;letter-spacing:0;color:var(--ink-45);display:block;margin-top:12px}
+.price__card p{color:var(--ink-70);font-size:var(--t-sm);line-height:1.5}
 .price__act{display:flex;flex-wrap:wrap;align-items:center;gap:14px clamp(18px,2.4vw,32px);
   margin-top:clamp(26px,3vw,38px)}
-.price__note{font-size:var(--t-sm);line-height:1.55;color:var(--ink-45);max-width:40ch}
+.price__note{font-size:var(--t-sm);line-height:1.5;color:var(--ink-45);max-width:40ch}
 .rules{margin-top:clamp(32px,3.4vw,50px);border-top:1px solid var(--ink-18)}
 .rules div{display:grid;grid-template-columns:var(--rail) minmax(0,1fr);gap:clamp(14px,2.4vw,44px);padding:18px 0;border-bottom:1px solid var(--ink-18);align-items:baseline}
-.rules dt{font:700 var(--t-xs)/1.5 Arsenal,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--olive)}
+.rules dt{font:700 var(--t-xs)/1.5 Arsenal,"Arsenal Fb",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--olive)}
 .rules dd{color:var(--ink-70);max-width:62ch}
 @media (max-width:820px){.price{grid-template-columns:1fr}.rules div{grid-template-columns:1fr;gap:6px}}
 
@@ -390,7 +412,7 @@ h1 em{font-style:italic;color:var(--olive-lt)}
   margin-left:calc(var(--rail) + clamp(24px,3vw,48px));max-width:74ch}
 @media (max-width:900px){.faq{margin-left:0;max-width:none}}
 .faq details{border-bottom:1px solid var(--ink-18)}
-.faq summary{list-style:none;cursor:pointer;padding:clamp(18px,2vw,26px) 40px clamp(18px,2vw,26px) 0;position:relative;font:500 var(--t-md)/1.35 Arsenal,system-ui,sans-serif;letter-spacing:-.018em;transition:color .2s}
+.faq summary{list-style:none;cursor:pointer;padding:clamp(18px,2vw,26px) 40px clamp(18px,2vw,26px) 0;position:relative;font:700 var(--t-md)/1.35 Arsenal,"Arsenal Fb",system-ui,sans-serif;letter-spacing:-.018em;transition:color .2s}
 .faq summary::-webkit-details-marker{display:none}
 .faq summary:hover{color:var(--olive)}
 .faq summary::before,.faq summary::after{content:"";position:absolute;right:6px;top:50%;background:currentColor;opacity:.55;transition:transform .3s ease}
@@ -403,25 +425,28 @@ h1 em{font-style:italic;color:var(--olive-lt)}
 /* ─────────── контакты ─────────── */
 .contact{display:grid;grid-template-columns:minmax(0,.95fr) minmax(0,1fr);gap:clamp(34px,4.6vw,84px);margin-top:clamp(40px,4.6vw,64px);align-items:stretch}
 .where{display:flex;flex-direction:column;min-height:0}
-.where dl div{display:grid;grid-template-columns:112px minmax(0,1fr);gap:clamp(14px,2vw,26px);padding:15px 0;border-bottom:1px solid var(--paper-18);font-size:var(--t-sm);line-height:1.6}
+.where dl a{display:inline-flex;align-items:center;min-height:44px}
+.where dl div{display:grid;grid-template-columns:112px minmax(0,1fr);gap:clamp(14px,2vw,26px);padding:15px 0;border-bottom:1px solid var(--paper-18);font-size:var(--t-sm);line-height:1.5}
+@media (max-width:700px){.where dl div{grid-template-columns:1fr;gap:4px}}
 .where dl{border-top:1px solid var(--paper-18)}
 .where dt{font-weight:700;color:var(--olive-lt);letter-spacing:.05em}
 .where dd{color:var(--paper-70)}
 .where dd a{color:var(--paper);text-decoration:none;border-bottom:1px solid var(--paper-40);transition:border-color .2s}
 .where dd a:hover{border-color:var(--olive-lt)}
 .where__fig{margin-top:26px;flex:1 1 auto;display:flex;flex-direction:column;min-height:0}
-.where__map{flex:1 1 auto;width:100%;min-height:min(52vw,240px);border:0;border-radius:var(--r-lg);
+.where__map{flex:1 1 auto;width:100%;min-height:min(52vw,240px);border:0;border-radius:var(--r-lg);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;padding:24px;
   background:var(--soil-2);display:block}
+.where__cap a{display:inline-flex;align-items:center;min-height:44px}
 .where__cap{font-size:var(--t-sm);color:var(--paper-55);margin-top:11px;max-width:44ch}
 .where__cap a{color:var(--paper);text-decoration:none;border-bottom:1px solid var(--paper-40)}
 form{background:var(--soil-2);border-radius:var(--r-lg);padding:clamp(24px,3vw,40px)}
-form h3{font:400 var(--t-lg)/1.1 Piazzolla,Georgia,serif;letter-spacing:-.02em;margin-bottom:8px}
+form h3{font:400 var(--t-lg)/1.1 Piazzolla,"Piazzolla Fb",Georgia,serif;letter-spacing:-.02em;margin-bottom:8px}
 form>p{color:var(--paper-70);font-size:var(--t-sm);margin-bottom:24px;max-width:44ch}
 .f{margin-bottom:18px}
-.f label,legend{display:block;font:700 var(--t-xs)/1.5 Arsenal,sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--olive-lt);margin-bottom:9px;padding:0}
+.f label,legend{display:block;font:700 var(--t-xs)/1.5 Arsenal,"Arsenal Fb",sans-serif;letter-spacing:.16em;text-transform:uppercase;color:var(--olive-lt);margin-bottom:9px;padding:0}
 .f input,.f textarea{
   width:100%;background:transparent;border:0;border-bottom:1px solid var(--paper-40);
-  color:var(--paper);font:400 var(--t-base)/1.5 Arsenal,sans-serif;padding:9px 0;border-radius:0;
+  color:var(--paper);font:400 var(--t-base)/1.5 Arsenal,"Arsenal Fb",sans-serif;padding:9px 0;border-radius:0;
   transition:border-color .22s ease;
 }
 .f textarea{resize:vertical;min-height:74px}
@@ -429,14 +454,20 @@ form>p{color:var(--paper-70);font-size:var(--t-sm);margin-bottom:24px;max-width:
 .f input::placeholder,.f textarea::placeholder{color:var(--paper-55)}
 fieldset{border:0;margin:0 0 22px;padding:0}
 .radios{display:flex;gap:10px;flex-wrap:wrap}
-.radios label{margin:0;letter-spacing:0;text-transform:none;font:400 var(--t-sm)/1 Arsenal,sans-serif;color:var(--paper-70);cursor:pointer;padding:12px 18px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--paper-40);transition:background .2s,color .2s,box-shadow .2s}
+.radios label{margin:0;letter-spacing:0;text-transform:none;font:400 var(--t-sm)/1 Arsenal,"Arsenal Fb",sans-serif;color:var(--paper-70);cursor:pointer;display:inline-flex;align-items:center;min-height:46px;padding:12px 18px;border-radius:999px;box-shadow:inset 0 0 0 1px var(--paper-40);transition:background .2s,color .2s,box-shadow .2s}
 .radios input{position:absolute;opacity:0;width:0;height:0}
 .radios input:checked+span,.radios label:has(input:checked){background:var(--olive-lt);color:var(--soil);box-shadow:none}
-.radios input:focus-visible+span{outline:2px solid var(--olive-lt);outline-offset:3px}
+/* у выбранного чипа фон оливковый, и светлая обводка на нём не видна:
+   при фокусе гасим заливку и держим тёмный фон под светлой обводкой */
+.radios label:has(input:focus-visible){background:var(--soil);color:var(--paper)}
+/* выбранный чип залит оливковым, и оливковая обводка на нём не видна */
+/* чип бывает и прозрачным на тёмном, и залитым оливковым: при фокусе
+   он темнеет, и светлая обводка видна в обоих случаях */
+.radios input:focus-visible+span{outline:2px solid var(--paper);outline-offset:3px;background:var(--soil);color:var(--paper);box-shadow:inset 0 0 0 1px var(--paper-40)}
 form .btn{width:100%;justify-content:center;background:var(--olive-lt);color:var(--soil);margin-top:6px}
 form .btn:hover{background:#BCC796}
 .agree{display:flex;gap:12px;align-items:flex-start;margin:4px 0 22px;cursor:pointer;
-  font:400 var(--t-sm)/1.5 Arsenal,sans-serif;letter-spacing:0;text-transform:none;color:var(--paper-70)}
+  font:400 var(--t-sm)/1.5 Arsenal,"Arsenal Fb",sans-serif;letter-spacing:0;text-transform:none;color:var(--paper-70)}
 .agree input{appearance:none;flex:0 0 auto;width:20px;height:20px;margin-top:1px;border-radius:6px;
   box-shadow:inset 0 0 0 1px var(--paper-40);background:transparent;cursor:pointer;position:relative;transition:background .2s}
 .agree input:checked{background:var(--olive-lt);box-shadow:none}
@@ -445,9 +476,9 @@ form .btn:hover{background:#BCC796}
 .agree a{color:var(--paper)}
 .agree.miss input{box-shadow:inset 0 0 0 1.5px #D8A38C}
 .trap{position:absolute;left:-9999px;width:1px;height:1px;opacity:0}
-.form__alt{font-size:var(--t-sm);line-height:1.55;color:var(--paper-70);margin-top:16px}
+.form__alt{font-size:var(--t-sm);line-height:1.5;color:var(--paper-70);margin-top:16px}
 .form__alt a{color:var(--paper);text-decoration:none;border-bottom:1px solid var(--paper-40)}
-.small{font-size:var(--t-sm);color:var(--paper-55);margin-top:12px;line-height:1.6}
+.small{font-size:var(--t-sm);color:var(--paper-55);margin-top:12px;line-height:1.5}
 .small a{color:var(--paper-70)}
 @media (max-width:940px){.contact{grid-template-columns:1fr;gap:40px}}
 
@@ -455,9 +486,9 @@ form .btn:hover{background:#BCC796}
 .foot{background:var(--soil);color:var(--paper-70);padding-block:clamp(40px,4.4vw,64px);border-top:1px solid var(--paper-18);font-size:var(--t-sm)}
 .foot__in{display:flex;flex-wrap:wrap;gap:22px 40px;justify-content:space-between;align-items:flex-end}
 .foot a{color:var(--paper);text-decoration:none;border-bottom:1px solid var(--paper-40)}
-.foot__brand{font:400 var(--t-md)/1.3 Piazzolla,Georgia,serif;color:var(--paper)}
+.foot__brand{font:400 var(--t-md)/1.3 Piazzolla,"Piazzolla Fb",Georgia,serif;color:var(--paper)}
 .foot p{max-width:52ch}
-.foot__legal{font-size:var(--t-sm);color:var(--paper-55);margin-top:12px;line-height:1.6}
+.foot__legal{font-size:var(--t-sm);color:var(--paper-55);margin-top:12px;line-height:1.5}
 .foot__right{text-align:left}
 @media (min-width:860px){.foot__right{text-align:right}.foot__right p{margin-left:auto}}
 
@@ -482,6 +513,17 @@ form .btn:hover{background:#BCC796}
 
 /* длинная надпись на 320 px ломалась на строки, прижатые влево */
 .btn, .btn-main, a.btn, button.btn{text-align:center;line-height:1.25}
+
+/* На узком экране выравнивание строк по длине оставляло в середине заголовка
+   одно слово («Пять причин, которые // можно проверить»). На телефоне строки
+   набираются подряд, а мера в ch не ограничивает. */
+@media (max-width:560px){
+  h1,h2,h3,.why__i h3,.why__cta h3,.case h3,.tl__name,.nope__t,.q__ask-h
+  {max-width:none;text-wrap:wrap}
+  /* неразрывные группы в заголовке на 320 px не влезают в строку и выгоняют
+     соседние слова по одному: на телефоне группа переносится как обычный текст */
+  h1 .nb,h2 .nb,h3 .nb{white-space:normal}
+}
 </style>
 <script>
 (function(){
@@ -518,7 +560,9 @@ form .btn:hover{background:#BCC796}
 <!-- ─────────── герой ─────────── -->
 <section class="hero" id="hero">
   <div class="hero__media" id="heroMedia">
-    <video class="hero__video" id="heroVideo" muted loop playsinline preload="none" aria-hidden="true" tabindex="-1"></video>
+    <video class="hero__video" id="heroVideo" muted loop playsinline preload="none"
+           disablepictureinpicture controlslist="nodownload noplaybackrate noremoteplayback"
+           aria-hidden="true" tabindex="-1"></video>
   </div>
   <div class="hero__scrim"></div>
   <div class="hero__in">
@@ -606,7 +650,7 @@ form .btn:hover{background:#BCC796}
 
         <div class="qi"><button class="qi__btn" aria-expanded="false"><span class="qi__t">«Со мной что-то не так»</span><span class="qi__hint">от 16 встреч</span><i class="qi__sign" aria-hidden="true"></i></button>
           <div class="qi__panel"><div class="qi__inner">
-            <p>Повышение вы объясняете везением, ошибку — приговором. Письмо переписываете по десять раз. На новом месте ждёте, когда все поймут, что вас взяли зря.</p>
+            <p>Повышение вы объясняете везением, ошибку — приговором. Письмо переписываете по десять раз. На новом месте ждёте, когда все поймут, что вас взяли зря.</p>
             <dl class="qi__meta">
               <dt>Что делаем</dt><dd>Собираем доказательную базу против собственного вывода о себе — буквально, фактами за неделю. Дальше работаем со сценарием дефективности.</dd>
               <dt>Обычный срок</dt><dd>От 16 встреч. Первый сдвиг обычно в том, что вы сами ловите себя на обесценивании.</dd>
@@ -661,7 +705,7 @@ form .btn:hover{background:#BCC796}
         <div class="nope__item">
           <h3 class="nope__name">Зависимости</h3>
           <div class="nope__in">
-            <p>Алкоголь, наркотики, игра. Здесь нужна программа и специалист, который занимается только этим; разговорная терапия раз в неделю не заменит её и создаёт иллюзию, что помощь идёт.</p>
+            <p>Алкоголь, наркотики, игра. Здесь нужна программа и специалист, который занимается только этим; разговорная терапия раз в неделю не заменит её и создаёт иллюзию, что помощь идёт.</p>
             <p class="nope__where"><b>Куда идти:</b> к аддиктологу. Дам контакты двух коллег, с которыми работала.</p>
           </div>
         </div>
@@ -713,7 +757,7 @@ form .btn:hover{background:#BCC796}
     <div class="tl">
       <div class="tl__row rv"><h3 class="tl__name">Знакомство</h3><p class="tl__txt">Вы говорите, как к вам обращаться. Я — сколько стоит, как переносим встречу и что остаётся между нами. Это скучные пять минут, но без них дальше неспокойно.</p></div>
       <div class="tl__row rv"><h3 class="tl__name">Что происходит</h3><p class="tl__txt">Рассказываете своими словами, с любого места. Не нужно готовить историю с начала и по порядку — я задаю открытые вопросы и не перебиваю. Если слов нет, я помогу их найти.</p></div>
-      <div class="tl__row rv"><h3 class="tl__name">Что болит сильнее</h3><p class="tl__txt">Из рассказа выбираем одно-два места, с которых начнём. Точную формулировку запроса обычно находят ко второй-третьей встрече — это нормально и не значит, что первая прошла зря.</p></div>
+      <div class="tl__row rv"><h3 class="tl__name">Что болит сильнее</h3><p class="tl__txt">Из рассказа выбираем одно-два места, с которых начнём. Точную формулировку запроса обычно находят ко второй-третьей встрече — это нормально и не значит, что первая прошла зря.</p></div>
       <div class="tl__row rv"><h3 class="tl__name">Условия</h3><p class="tl__txt">Место, частота, оплата, отмена за сутки, конфиденциальность. Это называется сеттинг, он проговаривается вслух и меняется только по согласию обеих сторон.</p></div>
       <div class="tl__row rv"><h3 class="tl__name">Что дальше</h3><p class="tl__txt">Говорю, вижу ли я здесь свою работу. Если нет — называю, к кому идти, прямо на встрече. Если да — предлагаю план на первые встречи и примерный срок.</p></div>
     </div>
@@ -723,8 +767,8 @@ form .btn:hover{background:#BCC796}
         <h3>Чего не будет</h3>
         <p class="mark mark--x"><b>Готового решения.</b> На первой встрече их обычно нет. Психолог, который выдаёт ответ через сорок минут знакомства, отвечает не вам, а своему шаблону.</p>
         <p class="mark mark--x"><b>Диагноза.</b> Диагнозы ставит врач. Я могу сказать, что вижу повод показаться психиатру, и объяснить почему.</p>
-        <p class="mark mark--x"><b>Обязательства продолжать.</b> После первой встречи решаете вы, и я не звоню уговаривать.</p>
-        <p class="mark mark--x"><b>Советов вроде «просто отпустите».</b> Если бы это работало, вы бы не искали психолога.</p>
+        <p class="mark mark--x"><b>Долга ходить дальше.</b> После первой встречи решаете вы, а я не звоню и не зову назад.</p>
+        <p class="mark mark--x"><b>Советов «просто отпусти».</b> Если бы это помогало, вы бы не искали психолога.</p>
       </div>
       <div class="rv">
         <h3>Что можно</h3>
@@ -751,7 +795,7 @@ form .btn:hover{background:#BCC796}
     <div class="why">
       <div class="why__i rv">
         <p class="why__n">Проверяемость</p>
-        <h3>Мои документы готовы к реестру уже сейчас</h3>
+        <h3>Мои документы готовы к реестру уже сейчас</h3>
         <p>Профильный специалитет и переподготовка по КПТ. Диплом, свидетельство и номер членства покажу до оплаты, а не после.</p>
         <details class="why__d"><summary>Зачем это скоро понадобится</summary><p>Готовится закон о психологической помощи: открытый реестр, обязательное членство в профорганизации, переаттестация раз в пять лет. Тем, у кого высшее непрофильное, дают переходный период до конца 2028 года.</p></details>
       </div>
@@ -764,7 +808,7 @@ form .btn:hover{background:#BCC796}
       <div class="why__i rv">
         <p class="why__n">Срок</p>
         <h3>На третьей встрече <span class="nb">вы услышите,</span> сколько <span class="nb">это займёт</span></h3>
-        <p>Назову ориентир в количестве встреч и признаки, по которым мы поймём, что пора заканчивать.</p>
+        <p>Назову ориентир в количестве встреч и признаки, по которым мы поймём, что пора заканчивать.</p>
         <details class="why__d"><summary>Что будет, если движения нет</summary><p>Скажу об этом сама к середине срока и предложу сменить метод или специалиста. Терапия без конца и без критериев — это не терапия, а абонемент.</p></details>
       </div>
       <div class="why__i rv">
@@ -823,7 +867,7 @@ form .btn:hover{background:#BCC796}
 
     <dl class="creds rv">
       <div><dt>2014</dt><dd>ПсковГУ, психология, специалитет</dd></div>
-      <div><dt>2017</dt><dd>Переподготовка по когнитивно-поведенческой терапии, Ассоциация КПТ (Санкт-Петербург), 620 часов</dd></div>
+      <div><dt>2017</dt><dd>Переподготовка по когнитивно-поведенческой терапии, Ассоциация КПТ (<span class="nb">Санкт-Петербург</span>), 620 часов</dd></div>
       <div><dt>2021</dt><dd>Схема-терапия, базовый курс Международного общества схема-терапии, 128 часов</dd></div>
       <div><dt>2023</dt><dd>Работа с паническим расстройством: протокол экспозиции, 48 часов</dd></div>
       <div><dt>480 ч</dt><dd>Супервизия за девять лет практики, продолжается раз в две недели</dd></div>
@@ -838,7 +882,7 @@ form .btn:hover{background:#BCC796}
     <div class="head">
       <p class="head__mark">Истории</p>
       <div class="head__body">
-        <h2>Три работы <span class="nb"><em>от запроса до итога</em></span></h2>
+        <h2>Работа <span class="nb"><em>от запроса до итога</em></span></h2>
         <p class="lead">Вместо отзывов — ход работы: с чем пришли, что делали, сколько встреч ушло и что изменилось. Отзыв говорит о впечатлении, ход работы — о методе.</p>
       </div>
     </div>
@@ -949,7 +993,7 @@ form .btn:hover{background:#BCC796}
         <p>Онлайн хуже в одном случае: дома нет комнаты, где вас не слышно. Тогда половина работы уйдёт на то, чтобы говорить вполголоса, — лучше кабинет.</p>
       </div></details>
       <details><summary>К психологу ходят слабые</summary><div class="faq__a">
-        <p>К психологу хоть раз обращался каждый десятый в России. В 2014 году был каждый двадцать пятый — за десять лет цифра выросла в два с половиной раза, и не потому, что люди ослабели.</p>
+        <p>К психологу хоть раз обращался каждый десятый в России. В 2014 году был каждый двадцать пятый — за десять лет цифра выросла в два с половиной раза, и не потому, что люди ослабели.</p>
         <p>Дольше всего к этой мысли привыкают: в среднем уходит от года до двух. Это и есть цена установки «терпи молча» — год-полтора жизни без изменений.</p>
       </div></details>
       <details><summary>Меня поставят на учёт? Узнают на работе?</summary><div class="faq__a">
@@ -982,7 +1026,7 @@ form .btn:hover{background:#BCC796}
     <div class="contact">
       <div class="where rv">
         <dl>
-          <div><dt>Кабинет</dt><dd>Псков, Октябрьский проспект, 26, офис 3. Второй этаж, вход со двора, домофон не нужен. Остановка «Детский парк» — 200 метров.</dd></div>
+          <div><dt>Кабинет</dt><dd>Псков, Октябрьский проспект, 26, офис 3. Второй этаж, вход со двора, домофон не нужен. Остановка «Детский парк» — 200 метров.</dd></div>
           <div><dt>Онлайн</dt><dd>Видеосвязь, ссылка приходит за час до встречи. Работаю со всей Россией и с другими часовыми поясами.</dd></div>
           <div><dt>Часы</dt><dd>Понедельник — пятница, 10:00–20:00. Суббота, 10:00–15:00. Воскресенье — выходной, и я его соблюдаю.</dd></div>
           <div><dt>Телефон</dt><dd><a href="tel:+79110000000">+7 911 000-00-00</a> — звонок или сообщение</dd></div>
@@ -990,9 +1034,11 @@ form .btn:hover{background:#BCC796}
           <div><dt>Профиль</dt><dd><a href="https://www.b17.ru/" rel="noopener">Анкета на b17.ru</a> — там же отзывы и ответы в открытых консультациях</dd></div>
         </dl>
         <figure class="where__fig">
-          <iframe class="where__map" loading="lazy" allowfullscreen
-            title="Кабинет на Октябрьском проспекте, 24 на карте Пскова"
-            src="https://yandex.ru/map-widget/v1/?ll=28.342530,57.814740&amp;z=17&amp;pt=28.342530,57.814740,pm2rdm"></iframe>
+          <div class="where__map" id="mapBox">
+            <p>Октябрьский проспект, 26 — напротив Кировского сквера.</p>
+            <button class="btn btn--ghost" type="button" id="mapShow">Показать карту Яндекса</button>
+            <p class="where__note">Карта подгружается по нажатию: до этого Яндекс не ставит cookie.</p>
+          </div>
           <figcaption class="where__cap">Напротив Кировский сквер.
             <a class="nb" href="https://yandex.ru/maps/?ll=28.342530,57.814740&amp;z=17&amp;pt=28.342530,57.814740" rel="noopener" target="_blank">Открыть в Яндекс Картах</a>
           </figcaption>
@@ -1034,7 +1080,7 @@ form .btn:hover{background:#BCC796}
           <textarea id="m" name="about" rows="3" placeholder="Двух строк хватит. Подробности — на встрече"></textarea></div>
 
         <label class="agree"><input type="checkbox" id="agree" name="agree" value="1">
-          <span>Согласен на обработку моих данных ради одной цели — назначить встречу.
+          <span>Согласен на <a class="nb" href="soglasie.html" target="_blank" rel="noopener">обработку моих данных</a> ради одной цели — назначить встречу.
             <a class="nb" href="privacy.html" target="_blank" rel="noopener">Как я их храню</a></span></label>
 
         <input type="text" name="website" class="trap" tabindex="-1" autocomplete="off" aria-hidden="true">
@@ -1056,7 +1102,7 @@ form .btn:hover{background:#BCC796}
     <div>
       <p class="foot__brand">Марина Зотова</p>
       <p>Психолог. Когнитивно-поведенческая терапия и схема-терапия. Псков и онлайн.</p>
-      <p class="foot__legal">Зотова Марина Андреевна, самозанятая. ИНН 600000000000.
+      <p class="foot__legal">Зотова Марина Андреевна, самозанятая. ИНН 600000000000.
         <a class="nb" href="privacy.html">Как я храню ваши данные</a></p>
     </div>
     <div class="foot__right">
@@ -1118,7 +1164,13 @@ form .btn:hover{background:#BCC796}
       if(!last)return;
       var raw=last.nodeValue, body=raw.replace(/\s+$/,''), tail=raw.slice(body.length);
       var m=body.match(/^([\s\S]*\S)[ 	]+(\S{1,16})$/);
-      if(m)last.nodeValue=m[1]+NB+m[2]+tail;
+      if(!m)return;
+      /* Хвост уже может быть склеен неразрывными пробелами по правилам набора.
+         Ещё одна склейка поверх даёт цепочку в пять слов, и строка рвётся
+         слишком рано (27.09.2026: «за то, что «пора бы уже».»). */
+      var run=(m[1]+NB+m[2]).split(/[ 	\n]/).pop();
+      if(run.length>24)return;
+      last.nodeValue=m[1]+NB+m[2]+tail;
     });
   }
   window.__widows=noWidows;
@@ -1436,6 +1488,23 @@ window.addEventListener('load',function(){
       var field = form.querySelector('input:not([type=hidden]):not([disabled]), textarea, select');
       if (field) field.focus({ preventScroll: true });
     }, 420);
+  });
+})();
+
+/* Карта Яндекса грузится по нажатию: её скрипты ставят cookie, а виджет
+   тянет за собой чужую разметку с критическими замечаниями доступности. */
+(function () {
+  var box = document.getElementById("mapBox"), btn = document.getElementById("mapShow");
+  if (!box || !btn) return;
+  btn.addEventListener("click", function () {
+    var f = document.createElement("iframe");
+    f.className = "where__map";
+    f.loading = "lazy";
+    f.allowFullscreen = true;
+    f.title = "Кабинет на Октябрьском проспекте, 26 на карте Пскова";
+    f.src = "https://yandex.ru/map-widget/v1/?ll=28.342530,57.814740&z=17&pt=28.342530,57.814740,pm2rdm";
+    box.parentNode.replaceChild(f, box);
+    f.focus();
   });
 })();
 </script>
